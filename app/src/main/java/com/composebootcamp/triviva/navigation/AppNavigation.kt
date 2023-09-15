@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.composebootcamp.triviva.AboutScreen
-import com.composebootcamp.triviva.GameOverScreen
-import com.composebootcamp.triviva.GameScreen
-import com.composebootcamp.triviva.GameWonScreen
-import com.composebootcamp.triviva.HomeScreen
-import com.composebootcamp.triviva.RuleScreen
+import com.composebootcamp.triviva.screens.AboutScreen
+import com.composebootcamp.triviva.screens.GameOverScreen
+import com.composebootcamp.triviva.screens.GameScreen
+import com.composebootcamp.triviva.screens.GameWonScreen
+import com.composebootcamp.triviva.screens.HomeScreen
+import com.composebootcamp.triviva.screens.RuleScreen
 
 @Composable
 fun AppNavigation() {
