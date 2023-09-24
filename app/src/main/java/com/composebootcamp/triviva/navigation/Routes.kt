@@ -1,6 +1,6 @@
 package com.composebootcamp.triviva.navigation
 
-sealed class Screen (val route: String) {
+open class Screen (val route: String) {
     object HomeScreen : Screen(route = "${ScreenIds.HomeScreen}")
     object GameScreen : Screen(route = "${ScreenIds.GameScreen}")
     object GameOverScreen : Screen(route = "${ScreenIds.GameOverScreen}")

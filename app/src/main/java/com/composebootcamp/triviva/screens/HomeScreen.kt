@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.composebootcamp.triviva.R
+import com.composebootcamp.triviva.navigation.Screen
 import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
 
@@ -46,15 +47,19 @@ fun HomeScreen(navController: NavController?) {
                 Text(stringResource(id = R.string.android_trivia))
             },
             navigationIcon = {
-                IconButton(onClick = {/* todo */}) {
-                    Icon(imageVector = Icons.Filled.Menu,
-                    contentDescription = "Navigation Drawer Button")
+                IconButton(onClick = {/* todo */ }) {
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = "Navigation Drawer Button"
+                    )
                 }
             }
         )
     }) { padding ->
         Column(
-            modifier = Modifier.padding(paddingValues = padding).fillMaxSize(),
+            modifier = Modifier
+                .padding(paddingValues = padding)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -67,7 +72,9 @@ fun HomeScreen(navController: NavController?) {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = ButtonPlayBgColor
                 ),
-                onClick = { /*TODO*/ }) {
+                onClick = {
+                    navController?.navigate(Screen.GameScreen.route)
+                }) {
                 Text(
                     text = stringResource(id = R.string.play_button_text),
                     style = TextStyle(color = ButtonPlayCaptionColor, fontWeight = FontWeight.Bold)
