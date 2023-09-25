@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.composebootcamp.triviva.R
 import com.composebootcamp.triviva.commonui.ScreenTemplate
+import com.composebootcamp.triviva.navigation.Screen
 import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
 import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
@@ -96,7 +97,11 @@ fun GameScreen(
                 ),
                 onClick = {
                     // go to next question
-                    viewModel.increaseIndex()
+                    if (viewModel.numOfQuiz == 1) {
+                        navController?.navigate(Screen.GameWonScreen.route)
+                    } else {
+                        viewModel.reduceQuestions()
+                    }
                 }) {
                 Text(
                     text = stringResource(id = R.string.submit_button),
