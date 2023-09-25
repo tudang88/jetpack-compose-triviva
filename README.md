@@ -43,4 +43,19 @@ There are some new concepts will be covered by making this app as following.
     }
 
   ```
-* Step 4: Create Screen UI
+* Step 4: Create Screen UI as normal
+
+## 4. How to create a mutable state
+Any changes to value schedules recomposition of any composable functions that read value. In the case of ExpandingCard, whenever expanded changes, it causes ExpandingCard to be recomposed.
+
+There are three ways to declare a MutableState object in a composable:
+```kotlin
+val mutableState = remember { mutableStateOf(default) }
+var value by remember { mutableStateOf(default) }
+val (value, setValue) = remember { mutableStateOf(default) }
+```
+These declarations are equivalent, and are provided as syntax sugar for different uses of state. You should pick the one that produces the easiest-to-read code in the composable you're writing.
+
+The by delegate syntax requires the following imports:
+
+

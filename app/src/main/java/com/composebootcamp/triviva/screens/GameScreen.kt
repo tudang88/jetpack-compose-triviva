@@ -55,7 +55,11 @@ fun GameScreen(
                 painter = painterResource(id = R.drawable.android_category_simple),
                 contentDescription = ""
             )
-            Text(text = viewModel.getQuiz().text, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = viewModel.getQuiz().text,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
             // Question area
             Column() {
                 viewModel.getQuiz().answers.forEach { text ->
@@ -65,7 +69,7 @@ fun GameScreen(
                             .selectable(
                                 selected = (text == selectedOption),
                                 onClick = {
-                                    onOptionSelected(text)
+                                    onOptionSelected(text) // use setter of MutableState selectedOption to update value
                                 }
                             )
                             .padding(horizontal = 16.dp),
@@ -74,7 +78,7 @@ fun GameScreen(
                         RadioButton(
                             selected = (text == selectedOption),
                             onClick = {
-                                onOptionSelected(text)
+                                onOptionSelected(text) // use setter of MutableState selectedOption to update value
                             })
                         Text(
                             text = text,
