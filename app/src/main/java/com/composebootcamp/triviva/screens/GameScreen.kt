@@ -14,8 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -39,12 +41,21 @@ fun GameScreen(
     viewModel: GameScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 
 ) {
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(viewModel.getQuiz().answers[0])
+    val question = viewModel.getQuiz()
+    val answers = question.answers.shuffled()
+    var selectedOption by remember {
+        mutableStateOf( answers[0])
     }
+    // observer transition state to transition
+    if (viewModel.transitionToGameOver) {
+        viewModel.reset()
+        navController?.navigate(Screen.GameOverScreen.route)
+    }
+
     ScreenTemplate(onBack = {
         navController?.popBackStack()
-    }, title = stringResource(id = R.string.android_trivia)) {
+    }, title = stringResource(id = R.string.android_trivia) + "(${viewModel.numOfCorrect}/${viewModel.getTotalQuiz()})"
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -57,20 +68,21 @@ fun GameScreen(
                 contentDescription = ""
             )
             Text(
-                text = viewModel.getQuiz().text,
+                text = question.text,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold
             )
             // Question area
             Column() {
-                viewModel.getQuiz().answers.forEach { text ->
+                answers.forEach { text ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .selectable(
                                 selected = (text == selectedOption),
                                 onClick = {
-                                    onOptionSelected(text) // use setter of MutableState selectedOption to update value
+                                    selectedOption =
+                                        text // use setter of MutableState selectedOption to update value
                                 }
                             )
                             .padding(horizontal = 16.dp),
@@ -79,7 +91,7 @@ fun GameScreen(
                         RadioButton(
                             selected = (text == selectedOption),
                             onClick = {
-                                onOptionSelected(text) // use setter of MutableState selectedOption to update value
+                                selectedOption = text // use setter of MutableState selectedOption to update value
                             })
                         Text(
                             text = text,
@@ -98,9 +110,10 @@ fun GameScreen(
                 onClick = {
                     // go to next question
                     if (viewModel.numOfQuiz == 1) {
+                        viewModel.reset()
                         navController?.navigate(Screen.GameWonScreen.route)
                     } else {
-                        viewModel.reduceQuestions()
+                        viewModel.submitAnswer(selectedOption, question)
                     }
                 }) {
                 Text(

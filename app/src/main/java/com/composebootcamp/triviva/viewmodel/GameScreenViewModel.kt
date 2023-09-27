@@ -1,42 +1,47 @@
 package com.composebootcamp.triviva.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import kotlin.random.Random
 
 data class Question(
     val text: String,
-    val answers: List<String>
+    val answers: List<String>,
+    val key: String
 )
 
 // test data of game
-private val questions: MutableList<Question> = mutableListOf(
+private val questions = listOf(
     Question(
         text = "What is Android Jetpack?",
-        answers = listOf("all of these", "tools", "documentation", "libraries")
+        answers = listOf("all of these", "tools", "documentation", "libraries"),
+        key = "all of these"
     ),
     Question(
         text = "Base class for Layout?",
-        answers = listOf("ViewGroup", "ViewSet", "ViewCollection", "ViewRoot")
+        answers = listOf("ViewGroup", "ViewSet", "ViewCollection", "ViewRoot"),
+        key = "ViewGroup"
     ),
     Question(
         text = "Layout for complex Screens?",
-        answers = listOf("ConstraintLayout", "GridLayout", "LinearLayout", "FrameLayout")
+        answers = listOf("ConstraintLayout", "GridLayout", "LinearLayout", "FrameLayout"),
+        key = "ConstraintLayout"
     ),
     Question(
         text = "Pushing structured data into a Layout?",
-        answers = listOf("Data Binding", "Data Pushing", "Set Text", "OnClick")
+        answers = listOf("Data Binding", "Data Pushing", "Set Text", "OnClick"),
+        key = "Data Binding"
     ),
     Question(
         text = "Inflate layout in fragments?",
-        answers = listOf("onCreateView", "onViewCreated", "onCreateLayout", "onInflateLayout")
+        answers = listOf("onCreateView", "onViewCreated", "onCreateLayout", "onInflateLayout"),
+        key = "onCreateView"
     ),
     Question(
         text = "Build system for Android?",
-        answers = listOf("Gradle", "Graddle", "Grodle", "Groyle")
+        answers = listOf("Gradle", "Graddle", "Grodle", "Groyle"),
+        key = "Gradle"
     ),
     Question(
         text = "Android vector format?",
@@ -45,19 +50,23 @@ private val questions: MutableList<Question> = mutableListOf(
             "AndroidVectorDrawable",
             "DrawableVector",
             "AndroidVector"
-        )
+        ),
+        key = "VectorDrawable"
     ),
     Question(
         text = "Android Navigation Component?",
-        answers = listOf("NavController", "NavCentral", "NavMaster", "NavSwitcher")
+        answers = listOf("NavController", "NavCentral", "NavMaster", "NavSwitcher"),
+        key = "NavController"
     ),
     Question(
         text = "Registers app with launcher?",
-        answers = listOf("intent-filter", "app-registry", "launcher-registry", "app-launcher")
+        answers = listOf("intent-filter", "app-registry", "launcher-registry", "app-launcher"),
+        key = "intent-filter"
     ),
     Question(
         text = "Mark a layout for Data Binding?",
-        answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>")
+        answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>"),
+        key = "<layout>"
     )
 )
 
@@ -66,7 +75,9 @@ class GameScreenViewModel : ViewModel() {
     // public questions
     private var _currentQuizIndex by mutableStateOf(0)
     private var _listOfIndex = mutableListOf<Int>()
+    var transitionToGameOver by mutableStateOf(false)
     var numOfQuiz = 0
+    var numOfCorrect = 0;
     init {
         reset()
     }
@@ -74,24 +85,38 @@ class GameScreenViewModel : ViewModel() {
         return questions[_currentQuizIndex]
     }
 
-    fun reduceQuestions() = run {
+    fun submitAnswer(answer: String, question: Question) {
+        if (answer == question.key) {
+            reduceQuestions()
+        } else {
+            gameOver()
+        }
+    }
+    private fun reduceQuestions() {
         when {
-            (numOfQuiz > 1) ->  {
+            (numOfQuiz > 1) -> {
                 --numOfQuiz
+                ++numOfCorrect
                 // update remain list and next question index
                 _listOfIndex.remove(_currentQuizIndex)
-                _currentQuizIndex = Random.nextInt(numOfQuiz)
+                _listOfIndex.apply { shuffle() }
+                _currentQuizIndex = _listOfIndex[0]
             }
-            else -> return
+            else -> gameOver()
         }
-
     }
-
+    fun getTotalQuiz() = questions.size
     fun reset() {
         questions.forEach() { item ->
             _listOfIndex.add(questions.indexOf(item))
         }
-        numOfQuiz = _listOfIndex.size
+        numOfQuiz = getTotalQuiz()
+        numOfCorrect = 0
+        transitionToGameOver = false
+    }
+
+    private fun gameOver() {
+        transitionToGameOver = true
     }
     
 }
