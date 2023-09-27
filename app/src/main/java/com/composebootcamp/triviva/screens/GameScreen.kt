@@ -33,6 +33,7 @@ import com.composebootcamp.triviva.commonui.ScreenTemplate
 import com.composebootcamp.triviva.navigation.Screen
 import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
+import com.composebootcamp.triviva.viewmodel.FinalDestination
 import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
 
 @Composable
@@ -47,9 +48,16 @@ fun GameScreen(
         mutableStateOf(answers[0])
     }
     // observer transition state to transition
-    if (viewModel.transitionToGameOver) {
-        viewModel.reset()
-        navController?.navigate(Screen.GameOverScreen.route)
+    when (viewModel.transitionToGameOver) {
+        FinalDestination.GameOver-> {
+            viewModel.reset()
+            navController?.navigate(Screen.GameOverScreen.route)
+        }
+        FinalDestination.GameWon -> {
+            viewModel.reset()
+            navController?.navigate(Screen.GameWonScreen.route)
+        }
+        else -> {}
     }
 
     ScreenTemplate(
@@ -86,7 +94,7 @@ fun GameScreen(
                                 onClick = {
                                     selectedOption =
                                         text // use setter of MutableState selectedOption to update value
-                                             // this operation similar to setState in StatefulWidget of flutter
+                                    // this operation similar to setState in StatefulWidget of flutter
                                 }
                             )
                             .padding(horizontal = 16.dp),
@@ -114,13 +122,9 @@ fun GameScreen(
                     containerColor = ButtonPlayBgColor
                 ),
                 onClick = {
-                    // go to next question
-                    if (viewModel.numOfQuiz == 1) {
-                        viewModel.reset()
-                        navController?.navigate(Screen.GameWonScreen.route)
-                    } else {
-                        viewModel.submitAnswer(selectedOption, question)
-                    }
+                    // submit answer
+                    viewModel.submitAnswer(selectedOption, question)
+
                 }) {
                 Text(
                     text = stringResource(id = R.string.submit_button),

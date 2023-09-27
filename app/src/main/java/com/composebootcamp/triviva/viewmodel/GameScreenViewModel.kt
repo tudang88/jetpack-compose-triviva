@@ -69,13 +69,16 @@ private val questions = listOf(
         key = "<layout>"
     )
 )
-
+enum class FinalDestination {
+    GameWon,
+    GameOver,
+    None
+}
 class GameScreenViewModel : ViewModel() {
 
-    // public questions
     private var _currentQuizIndex by mutableStateOf(0)
     private var _listOfIndex = mutableListOf<Int>()
-    var transitionToGameOver by mutableStateOf(false)
+    var transitionToGameOver by mutableStateOf(FinalDestination.None)
     var numOfQuiz = 0
     var numOfCorrect = 0;
     init {
@@ -87,12 +90,12 @@ class GameScreenViewModel : ViewModel() {
 
     fun submitAnswer(answer: String, question: Question) {
         if (answer == question.key) {
-            reduceQuestions()
+            correctedAnswer()
         } else {
             gameOver()
         }
     }
-    private fun reduceQuestions() {
+    private fun correctedAnswer() {
         when {
             (numOfQuiz > 1) -> {
                 --numOfQuiz
@@ -102,7 +105,7 @@ class GameScreenViewModel : ViewModel() {
                 _listOfIndex.apply { shuffle() }
                 _currentQuizIndex = _listOfIndex[0]
             }
-            else -> gameOver()
+            else -> gameWon()
         }
     }
     fun getTotalQuiz() = questions.size
@@ -112,11 +115,14 @@ class GameScreenViewModel : ViewModel() {
         }
         numOfQuiz = getTotalQuiz()
         numOfCorrect = 0
-        transitionToGameOver = false
+        transitionToGameOver = FinalDestination.None
     }
 
+    private fun gameWon() {
+        transitionToGameOver = FinalDestination.GameWon
+    }
     private fun gameOver() {
-        transitionToGameOver = true
+        transitionToGameOver = FinalDestination.GameOver
     }
     
 }
