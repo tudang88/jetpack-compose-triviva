@@ -78,9 +78,9 @@ class GameScreenViewModel : ViewModel() {
 
     private var _currentQuizIndex by mutableStateOf(0)
     private var _listOfIndex = mutableListOf<Int>()
-    var transitionToGameOver by mutableStateOf(FinalDestination.None)
-    var numOfQuiz = 0
-    var numOfCorrect = 0;
+    private var transitionGoal by mutableStateOf(FinalDestination.None)
+    private var numOfQuiz = 0
+    private var numOfCorrect = 0;
     init {
         reset()
     }
@@ -115,14 +115,16 @@ class GameScreenViewModel : ViewModel() {
         }
         numOfQuiz = getTotalQuiz()
         numOfCorrect = 0
-        transitionToGameOver = FinalDestination.None
+        transitionGoal = FinalDestination.None
     }
 
+    fun getDestination() = transitionGoal
+    fun getNumOfCorrect() = numOfCorrect
     private fun gameWon() {
-        transitionToGameOver = FinalDestination.GameWon
+        transitionGoal = FinalDestination.GameWon
     }
     private fun gameOver() {
-        transitionToGameOver = FinalDestination.GameOver
+        transitionGoal = FinalDestination.GameOver
     }
     
 }

@@ -48,7 +48,7 @@ fun GameScreen(
         mutableStateOf(answers[0])
     }
     // observer transition state to transition
-    when (viewModel.transitionToGameOver) {
+    when (viewModel.getDestination()) {
         FinalDestination.GameOver-> {
             viewModel.reset()
             navController?.navigate(Screen.GameOverScreen.route)
@@ -60,11 +60,12 @@ fun GameScreen(
         else -> {}
     }
 
+    // UI structure
     ScreenTemplate(
         onBack = {
             navController?.popBackStack()
         },
-        title = stringResource(id = R.string.android_trivia) + "(${viewModel.numOfCorrect}/${viewModel.getTotalQuiz()})"
+        title = stringResource(id = R.string.android_trivia) + "(${viewModel.getNumOfCorrect()}/${viewModel.getTotalQuiz()})"
     ) {
         Column(
             modifier = Modifier
