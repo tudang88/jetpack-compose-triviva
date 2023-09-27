@@ -44,7 +44,7 @@ fun GameScreen(
     val question = viewModel.getQuiz()
     val answers = question.answers.shuffled()
     var selectedOption by remember {
-        mutableStateOf( answers[0])
+        mutableStateOf(answers[0])
     }
     // observer transition state to transition
     if (viewModel.transitionToGameOver) {
@@ -52,9 +52,11 @@ fun GameScreen(
         navController?.navigate(Screen.GameOverScreen.route)
     }
 
-    ScreenTemplate(onBack = {
-        navController?.popBackStack()
-    }, title = stringResource(id = R.string.android_trivia) + "(${viewModel.numOfCorrect}/${viewModel.getTotalQuiz()})"
+    ScreenTemplate(
+        onBack = {
+            navController?.popBackStack()
+        },
+        title = stringResource(id = R.string.android_trivia) + "(${viewModel.numOfCorrect}/${viewModel.getTotalQuiz()})"
     ) {
         Column(
             modifier = Modifier
@@ -64,6 +66,7 @@ fun GameScreen(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Image(
+                modifier = Modifier.padding(8.dp),
                 painter = painterResource(id = R.drawable.android_category_simple),
                 contentDescription = ""
             )
@@ -83,6 +86,7 @@ fun GameScreen(
                                 onClick = {
                                     selectedOption =
                                         text // use setter of MutableState selectedOption to update value
+                                             // this operation similar to setState in StatefulWidget of flutter
                                 }
                             )
                             .padding(horizontal = 16.dp),
@@ -91,7 +95,9 @@ fun GameScreen(
                         RadioButton(
                             selected = (text == selectedOption),
                             onClick = {
-                                selectedOption = text // use setter of MutableState selectedOption to update value
+                                selectedOption =
+                                    text // use setter of MutableState selectedOption to update value
+                                         // this operation similar to setState in StatefulWidget of flutter
                             })
                         Text(
                             text = text,
