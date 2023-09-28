@@ -69,11 +69,13 @@ private val questions = listOf(
         key = "<layout>"
     )
 )
+
 enum class FinalDestination {
     GameWon,
     GameOver,
     None
 }
+
 class GameScreenViewModel : ViewModel() {
 
     private var _currentQuizIndex by mutableStateOf(0)
@@ -81,9 +83,11 @@ class GameScreenViewModel : ViewModel() {
     private var transitionGoal by mutableStateOf(FinalDestination.None)
     private var numOfQuiz = 0
     private var numOfCorrect = 0;
+
     init {
         reset()
     }
+
     fun getQuiz(): Question {
         return questions[_currentQuizIndex]
     }
@@ -95,6 +99,7 @@ class GameScreenViewModel : ViewModel() {
             gameOver()
         }
     }
+
     private fun correctedAnswer() {
         when {
             (numOfQuiz > 1) -> {
@@ -105,9 +110,11 @@ class GameScreenViewModel : ViewModel() {
                 _listOfIndex.apply { shuffle() }
                 _currentQuizIndex = _listOfIndex[0]
             }
+
             else -> gameWon()
         }
     }
+
     fun getTotalQuiz() = questions.size
     fun reset() {
         questions.forEach() { item ->
@@ -123,8 +130,9 @@ class GameScreenViewModel : ViewModel() {
     private fun gameWon() {
         transitionGoal = FinalDestination.GameWon
     }
+
     private fun gameOver() {
         transitionGoal = FinalDestination.GameOver
     }
-    
+
 }
