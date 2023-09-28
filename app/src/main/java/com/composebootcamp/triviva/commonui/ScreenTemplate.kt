@@ -35,14 +35,7 @@ import com.composebootcamp.triviva.navigation.Screen
 fun ScreenTemplate(
     title: String = "Template",
     onLeadingClick: () -> Unit = {},
-    navIcon: @Composable () -> Unit = {
-        IconButton(onClick = { onLeadingClick() }) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "Navigation Drawer Button"
-            )
-        }
-    },
+    navIcon: ImageVector = Icons.Filled.ArrowBack,
     actionMenu: @Composable RowScope.() -> Unit = {
         Spacer(modifier = Modifier.width(0.dp))
     }, content: @Composable (PaddingValues) -> Unit
@@ -57,7 +50,12 @@ fun ScreenTemplate(
                 Text(title)
             },
             navigationIcon = {
-                navIcon()
+                IconButton(onClick = { onLeadingClick() }) {
+                    Icon(
+                        imageVector = navIcon,
+                        contentDescription = "Navigation Drawer Button"
+                    )
+                }
             },
             actions = { actionMenu() }
         )
@@ -91,14 +89,7 @@ fun ScreenWithNavigationDrawer(
         }) {
         ScreenTemplate(
             title = title, onLeadingClick = onLeadingClick,
-            navIcon = {
-                IconButton(onClick = { onLeadingClick() }) {
-                    Icon(
-                        imageVector = navIcon,
-                        contentDescription = "Navigation Drawer Button"
-                    )
-                }
-            },
+            navIcon =  navIcon,
             actionMenu = actionMenu
         ) {
             content(it)
