@@ -70,4 +70,4 @@ https://developer.android.com/jetpack/compose/components/drawer
 * The implementation sample could be found in this project menu package
 
 ## 7. The complete demo
-![](https://github.com/tudang88/jetpack-compose-triviva/demo.gif)
+![](https://github.com/tudang88/jetpack-compose-triviva/blob/main/docs/demo.gif)
