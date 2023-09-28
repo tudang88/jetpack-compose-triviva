@@ -62,7 +62,7 @@ fun GameScreen(
 
     // UI structure
     ScreenTemplate(
-        onBack = {
+        onLeadingClick = {
             navController?.popBackStack()
         },
         title = stringResource(id = R.string.android_trivia) + "(${viewModel.getNumOfCorrect()}/${viewModel.getTotalQuiz()})"

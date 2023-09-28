@@ -3,6 +3,8 @@ package com.composebootcamp.triviva.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,19 +22,21 @@ import com.composebootcamp.triviva.commonui.ScreenTemplate
 @Composable
 fun RuleScreen(navController: NavController? = null) {
     ScreenTemplate(
-        onBack = { navController?.popBackStack() },
+        onLeadingClick = { navController?.popBackStack() },
         title = stringResource(id = R.string.rules)
     ) {
-        Column(modifier = Modifier.padding(it)) {
+        Column(modifier = Modifier
+            .padding(it).padding(4.dp)
+            .verticalScroll(rememberScrollState())) {
             Image(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(32.dp),
                 painter = painterResource(id = R.drawable.trivia_rules),
                 contentDescription = "rule image"
             )
             Text(
                 modifier = Modifier.padding(8.dp),
                 text = stringResource(id = R.string.rules_text),
-                style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center)
+                style = TextStyle(fontSize = 22.sp, textAlign = TextAlign.Center)
             )
         }
     }

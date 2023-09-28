@@ -9,15 +9,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -29,33 +26,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.composebootcamp.triviva.R
+import com.composebootcamp.triviva.commonui.ScreenWithNavigationDrawer
 import com.composebootcamp.triviva.navigation.Screen
 import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController?) {
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-            ),
-            title = {
-                Text(stringResource(id = R.string.android_trivia))
-            },
-            navigationIcon = {
-                IconButton(onClick = {/* todo */ }) {
-                    Icon(
-                        imageVector = Icons.Filled.Menu,
-                        contentDescription = "Navigation Drawer Button"
-                    )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    // the drawerState operation request a coroutine scope
+    val scope = rememberCoroutineScope()
+    ScreenWithNavigationDrawer(
+        navController = navController,
+        drawerState = drawerState,
+        title = stringResource(id = R.string.android_trivia),
+        onLeadingClick = {
+            // on DrawerMenu click
+            scope.launch {
+                drawerState.apply {
+                    if (isClosed) open() else close()
                 }
             }
-        )
-    }) { padding ->
+        },
+        navIcon = Icons.Filled.Menu
+    ) { padding ->
         Column(
             modifier = Modifier
                 .padding(paddingValues = padding)

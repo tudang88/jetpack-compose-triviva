@@ -27,7 +27,7 @@ import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
 
 @Composable
 fun GameOverScreen(navController: NavController? = null) {
-    ScreenTemplate(onBack = {
+    ScreenTemplate(onLeadingClick = {
         navController?.popBackStack()
     }, title = stringResource(id = R.string.android_trivia)) {
         Column(

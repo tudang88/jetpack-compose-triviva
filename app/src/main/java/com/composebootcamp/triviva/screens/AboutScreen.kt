@@ -13,7 +13,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,7 +23,7 @@ import com.composebootcamp.triviva.commonui.ScreenTemplate
 @Composable
 fun AboutScreen(navController: NavController? = null) {
     ScreenTemplate(
-        onBack = {
+        onLeadingClick = {
             navController?.popBackStack()
         },
         title = stringResource(id = R.string.about)
@@ -44,7 +43,7 @@ fun AboutScreen(navController: NavController? = null) {
                     .padding(8.dp),
                 text = stringResource(id = R.string.about_text),
                 style = TextStyle(
-                    fontSize = 24.sp, textAlign = TextAlign.Center
+                    fontSize = 22.sp, textAlign = TextAlign.Center
                 )
             )
         }
