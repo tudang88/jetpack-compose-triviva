@@ -49,14 +49,20 @@ fun GameScreen(
     }
     // observer transition state to transition
     when (viewModel.getDestination()) {
-        FinalDestination.GameOver-> {
+        FinalDestination.GameOver -> {
             viewModel.reset()
             navController?.navigate(Screen.GameOverScreen.route)
         }
+
         FinalDestination.GameWon -> {
+            val numOfCorrect = viewModel.getNumOfCorrect()
+            val totalQuiz = viewModel.getTotalQuiz()
             viewModel.reset()
-            navController?.navigate(Screen.GameWonScreen.route)
+            navController?.navigate(
+                Screen.GameWonScreen.buildRouteWithIntArgs(numOfCorrect, totalQuiz)
+            )
         }
+
         else -> {}
     }
 
@@ -106,7 +112,7 @@ fun GameScreen(
                             onClick = {
                                 selectedOption =
                                     text // use setter of MutableState selectedOption to update value
-                                         // this operation similar to setState in StatefulWidget of flutter
+                                // this operation similar to setState in StatefulWidget of flutter
                             })
                         Text(
                             text = text,

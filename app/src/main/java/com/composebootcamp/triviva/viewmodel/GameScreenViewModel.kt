@@ -101,18 +101,22 @@ class GameScreenViewModel : ViewModel() {
     }
 
     private fun correctedAnswer() {
+        // increase num of correct
+        ++numOfCorrect
         when {
             (numOfQuiz > 1) -> {
-                --numOfQuiz
-                ++numOfCorrect
                 // update remain list and next question index
                 _listOfIndex.remove(_currentQuizIndex)
                 _listOfIndex.apply { shuffle() }
                 _currentQuizIndex = _listOfIndex[0]
             }
 
-            else -> gameWon()
+            else -> {
+                gameWon()
+            }
         }
+        // decrease remaining quiz
+        --numOfQuiz
     }
 
     fun getTotalQuiz() = questions.size

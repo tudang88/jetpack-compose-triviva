@@ -1,8 +1,10 @@
 package com.composebootcamp.triviva.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.composebootcamp.triviva.screens.AboutScreen
 import com.composebootcamp.triviva.screens.GameOverScreen
@@ -11,6 +13,8 @@ import com.composebootcamp.triviva.screens.GameWonScreen
 import com.composebootcamp.triviva.screens.HomeScreen
 import com.composebootcamp.triviva.screens.RuleScreen
 
+// refer original document
+//https://developer.android.com/jetpack/compose/navigation
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -22,11 +26,24 @@ fun AppNavigation() {
         }
         // define route for Game screen
         composable(route = Screen.GameScreen.route) {
-           GameScreen(navController)
+            GameScreen(navController)
         }
-        // define route for GameWon screen
-        composable(route = Screen.GameWonScreen.route) {
-            GameWonScreen(navController)
+        // define route for GameWon screen with argument
+        composable(
+            route = Screen.GameWonScreen.route + "/{$GameWonNumOfCorrect}/{$GameWonTotalQuiz}",
+            arguments = listOf(navArgument(GameWonNumOfCorrect) {
+                type = NavType.IntType
+                defaultValue = 0
+            },
+                navArgument(GameWonTotalQuiz) {
+                    type = NavType.IntType
+                    defaultValue = 0
+                }
+            )
+        ) { entry ->
+            val correctNum = entry.arguments?.getInt(GameWonNumOfCorrect, 0) ?: 0
+            val totalNum = entry.arguments?.getInt(GameWonTotalQuiz, 0) ?: 0
+            GameWonScreen(navController, numOfCorrect = correctNum, totalQuiz = totalNum)
         }
         // define route for GameOver screen
         composable(route = Screen.GameOverScreen.route) {
