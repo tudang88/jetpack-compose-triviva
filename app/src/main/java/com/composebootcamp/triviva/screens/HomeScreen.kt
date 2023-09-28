@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.composebootcamp.triviva.R
-import com.composebootcamp.triviva.commonui.ScreenWithNavigationDrawer
+import com.composebootcamp.triviva.commonui.ScreenWithNavigationDrawerTemplate
 import com.composebootcamp.triviva.navigation.Screen
 import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
@@ -39,7 +39,7 @@ fun HomeScreen(navController: NavController?) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     // the drawerState operation request a coroutine scope
     val scope = rememberCoroutineScope()
-    ScreenWithNavigationDrawer(
+    ScreenWithNavigationDrawerTemplate(
         drawerState = drawerState,
         title = stringResource(id = R.string.android_trivia),
         onMenuItemClick = { item ->

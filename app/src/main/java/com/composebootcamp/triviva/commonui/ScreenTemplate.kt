@@ -64,7 +64,7 @@ fun ScreenTemplate(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScreenWithNavigationDrawer(
+fun ScreenWithNavigationDrawerTemplate(
     drawerState: DrawerState,
     title: String = "Template",
     onMenuItemClick: (MenuItem) -> Unit,
@@ -102,7 +102,7 @@ fun ScreenTemplatePreview() {
 @Preview(showBackground = true)
 @Composable
 fun ScreenWithNavigationDrawerPreview() {
-    ScreenWithNavigationDrawer(
+    ScreenWithNavigationDrawerTemplate(
         drawerState = DrawerState(initialValue = DrawerValue.Open),
         navIcon = Icons.Default.Menu,
         onMenuItemClick = {}
