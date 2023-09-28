@@ -7,6 +7,8 @@ There are some new concepts will be covered by making this app as following.
 * How to make screen without using Fragment
 * How to navigate between screen
 * How to use ViewModel
+* Using NavigationDrawer
+* Using ActionMenu or Overflow menu
 
 ## 2. Target UIs
 
@@ -58,4 +60,14 @@ These declarations are equivalent, and are provided as syntax sugar for differen
 
 The by delegate syntax requires the following imports:
 
+## 5. How to Navigation between screen
+refer original document
+https://developer.android.com/jetpack/compose/navigation
+* The implementation sample could be found in this project navigation package
+## 6. How to use NavigationDrawer
+refer to original document
+https://developer.android.com/jetpack/compose/components/drawer
+* The implementation sample could be found in this project menu package
+
+## 7. The complete demo
 
