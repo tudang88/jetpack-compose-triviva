@@ -40,9 +40,11 @@ fun HomeScreen(navController: NavController?) {
     // the drawerState operation request a coroutine scope
     val scope = rememberCoroutineScope()
     ScreenWithNavigationDrawer(
-        navController = navController,
         drawerState = drawerState,
         title = stringResource(id = R.string.android_trivia),
+        onMenuItemClick = { item ->
+            navController?.navigate(item.route)
+        },
         onLeadingClick = {
             // on DrawerMenu click
             scope.launch {

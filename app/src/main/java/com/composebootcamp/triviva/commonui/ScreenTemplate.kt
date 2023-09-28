@@ -23,11 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.composebootcamp.triviva.menu.DrawerBody
-import com.composebootcamp.triviva.menu.MenuItemId
+import com.composebootcamp.triviva.menu.MenuItem
 import com.composebootcamp.triviva.menu.menuList
-import com.composebootcamp.triviva.navigation.Screen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,9 +65,9 @@ fun ScreenTemplate(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenWithNavigationDrawer(
-    navController: NavController? = null,
     drawerState: DrawerState,
     title: String = "Template",
+    onMenuItemClick: (MenuItem) -> Unit,
     onLeadingClick: () -> Unit = {},
     navIcon: ImageVector,
     actionMenu: @Composable RowScope.() -> Unit = {
@@ -79,13 +77,9 @@ fun ScreenWithNavigationDrawer(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            DrawerBody(items = menuList, onItemClick = {
-                when (it.id) {
-                    MenuItemId.Rules.id -> navController?.navigate(Screen.RuleScreen.route)
-                    MenuItemId.About.id -> navController?.navigate(Screen.AboutScreen.route)
-                    else -> {}
-                }
-            })
+            DrawerBody(items = menuList) {
+                onMenuItemClick(it)
+            }
         }) {
         ScreenTemplate(
             title = title, onLeadingClick = onLeadingClick,
@@ -110,7 +104,8 @@ fun ScreenTemplatePreview() {
 fun ScreenWithNavigationDrawerPreview() {
     ScreenWithNavigationDrawer(
         drawerState = DrawerState(initialValue = DrawerValue.Open),
-        navIcon = Icons.Default.Menu
+        navIcon = Icons.Default.Menu,
+        onMenuItemClick = {}
     ) {}
 }
 
