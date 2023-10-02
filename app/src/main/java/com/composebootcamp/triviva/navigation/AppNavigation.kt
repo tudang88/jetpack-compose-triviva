@@ -1,6 +1,11 @@
 package com.composebootcamp.triviva.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -27,7 +32,26 @@ fun AppNavigation() {
             HomeScreen(navController)
         }
         // define route for Game screen
-        composable(route = Screen.GameScreen.route) {
+        composable(route = Screen.GameScreen.route,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it }, // it == fullWidth
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            }
+        ) {
             GameScreen(navController)
         }
         // define route for GameWon screen with argument
@@ -41,22 +65,94 @@ fun AppNavigation() {
                     type = NavType.IntType
                     defaultValue = 0
                 }
-            )
+            ),
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it }, // it == fullWidth
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            }
         ) { entry ->
             val correctNum = entry.arguments?.getInt(GameWonNumOfCorrect, 0) ?: 0
             val totalNum = entry.arguments?.getInt(GameWonTotalQuiz, 0) ?: 0
             GameWonScreen(navController, numOfCorrect = correctNum, totalQuiz = totalNum)
         }
         // define route for GameOver screen
-        composable(route = Screen.GameOverScreen.route) {
+        composable(route = Screen.GameOverScreen.route,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it }, // it == fullWidth
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            }) {
             GameOverScreen(navController)
         }
         // define route for About screen
-        composable(route = Screen.AboutScreen.route) {
+        composable(route = Screen.AboutScreen.route,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it }, // it == fullWidth
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            }) {
             AboutScreen(navController)
         }
         // define route for Rule screen
-        composable(route = Screen.RuleScreen.route) {
+        composable(route = Screen.RuleScreen.route,
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it }, // it == fullWidth
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it },
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        easing = LinearEasing
+                    )
+                )
+            }) {
             RuleScreen(navController)
         }
     }
