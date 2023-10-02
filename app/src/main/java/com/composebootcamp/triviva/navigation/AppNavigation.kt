@@ -1,11 +1,12 @@
 package com.composebootcamp.triviva.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.composebootcamp.triviva.screens.AboutScreen
 import com.composebootcamp.triviva.screens.GameOverScreen
 import com.composebootcamp.triviva.screens.GameScreen
@@ -15,6 +16,7 @@ import com.composebootcamp.triviva.screens.RuleScreen
 
 // refer original document
 //https://developer.android.com/jetpack/compose/navigation
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
