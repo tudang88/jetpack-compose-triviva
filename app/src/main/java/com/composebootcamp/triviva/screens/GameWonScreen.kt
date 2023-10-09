@@ -39,16 +39,22 @@ fun GameWonScreen(navController: NavController? = null, numOfCorrect: Int, total
             // get the local context for accessing resource and send intent
             val mContext = LocalContext.current
             IconButton(onClick = {
-            // share result through other app
+                // share result through other app
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_success_text, numOfCorrect, totalQuiz))
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        mContext.getString(R.string.share_success_text, numOfCorrect, totalQuiz)
+                    )
                     type = "text/plain"
                 }
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 mContext.startActivity(shareIntent)
             }) {
-                Icon(painter = painterResource(id = R.drawable.share), contentDescription = "button share")
+                Icon(
+                    painter = painterResource(id = R.drawable.share),
+                    contentDescription = "button share"
+                )
             }
         }
     ) {
@@ -83,6 +89,42 @@ fun GameWonScreen(navController: NavController? = null, numOfCorrect: Int, total
     }
 }
 
+@Composable
+fun GameWonScreenContent(navController: NavController? = null) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Image(
+            modifier = Modifier.padding(32.dp),
+            painter = painterResource(id = R.drawable.you_win),
+            contentDescription = "you win image"
+        )
+        Button(
+            shape = RectangleShape,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = ButtonPlayBgColor
+            ),
+            onClick = {
+                // back to Home for playing again
+                navController?.popBackStack(Screen.HomeScreen.route, inclusive = false)
+            }
+        ) {
+            Text(
+                text = stringResource(id = R.string.try_again),
+                style = TextStyle(color = ButtonPlayCaptionColor, fontWeight = FontWeight.Bold)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameWonScreenContentPreview() {
+    GameOverScreenContent()
+}
 @Preview
 @Composable
 fun GameWonScreenPreview() {

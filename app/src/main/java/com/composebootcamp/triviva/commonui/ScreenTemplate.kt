@@ -62,6 +62,16 @@ fun ScreenTemplate(
     }
 }
 
+@Composable
+fun ScreenContent(content: @Composable (PaddingValues) -> Unit) {
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ScreenContentPreview() {
+    ScreenContent() {}
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenWithNavigationDrawerTemplate(
@@ -83,7 +93,7 @@ fun ScreenWithNavigationDrawerTemplate(
         }) {
         ScreenTemplate(
             title = title, onLeadingClick = onLeadingClick,
-            navIcon =  navIcon,
+            navIcon = navIcon,
             actionMenu = actionMenu
         ) {
             content(it)

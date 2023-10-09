@@ -2,6 +2,7 @@ package com.composebootcamp.triviva.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,30 +21,28 @@ import com.composebootcamp.triviva.R
 import com.composebootcamp.triviva.commonui.ScreenTemplate
 
 @Composable
-fun RuleScreen(navController: NavController? = null) {
-    ScreenTemplate(
-        onLeadingClick = { navController?.popBackStack() },
-        title = stringResource(id = R.string.rules)
+fun RuleScreenContent(paddingValues: PaddingValues) {
+
+    Column(
+        modifier = Modifier
+            .padding(paddingValues)
+            .verticalScroll(rememberScrollState())
     ) {
-        Column(modifier = Modifier
-            .padding(it).padding(4.dp)
-            .verticalScroll(rememberScrollState())) {
-            Image(
-                modifier = Modifier.padding(32.dp),
-                painter = painterResource(id = R.drawable.trivia_rules),
-                contentDescription = "rule image"
-            )
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = stringResource(id = R.string.rules_text),
-                style = TextStyle(fontSize = 22.sp, textAlign = TextAlign.Center)
-            )
-        }
+        Image(
+            modifier = Modifier.padding(32.dp),
+            painter = painterResource(id = R.drawable.trivia_rules),
+            contentDescription = "rule image"
+        )
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = stringResource(id = R.string.rules_text),
+            style = TextStyle(fontSize = 22.sp, textAlign = TextAlign.Center)
+        )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun RuleScreenPreview() {
-    RuleScreen()
+fun RuleScreenContentPreview() {
+    RuleScreenContent(PaddingValues(24.dp))
 }
