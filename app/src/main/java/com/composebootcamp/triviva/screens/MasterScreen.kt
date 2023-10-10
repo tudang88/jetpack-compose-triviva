@@ -40,6 +40,13 @@ fun MasterScreen() {
         drawerState = drawerState,
         drawerContent = {
             DrawerBody(items = menuList) {
+                // close drawer menu
+                scope.launch {
+                    drawerState.apply {
+                        if (!isClosed) close()
+                    }
+                }
+                // navigate to destination
                 navController.navigate(it.route)
             }
         }) {
