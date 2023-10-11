@@ -69,5 +69,7 @@ refer to original document
 https://developer.android.com/jetpack/compose/components/drawer
 * The implementation sample could be found in this project menu package
 
-## 7. The complete demo
+## 7. The complete demo with trantition anime for whole screen
 ![](https://github.com/tudang88/jetpack-compose-triviva/blob/main/docs/demo.gif)
+## 8. The compleme demo with transition anime for content area only (same as fragment navigation)
+![](https://github.com/tudang88/jetpack-compose-triviva/blob/main/docs/modify_to_screen_transition_anime_like_fragments.gif)

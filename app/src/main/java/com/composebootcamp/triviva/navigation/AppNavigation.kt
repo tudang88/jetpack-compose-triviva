@@ -1,35 +1,41 @@
 package com.composebootcamp.triviva.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.composebootcamp.triviva.screens.AboutScreen
-import com.composebootcamp.triviva.screens.GameOverScreen
-import com.composebootcamp.triviva.screens.GameScreen
-import com.composebootcamp.triviva.screens.GameWonScreen
-import com.composebootcamp.triviva.screens.HomeScreen
-import com.composebootcamp.triviva.screens.RuleScreen
+import com.composebootcamp.triviva.screens.AboutScreenContent
+import com.composebootcamp.triviva.screens.GameOverScreenContent
+import com.composebootcamp.triviva.screens.GameScreenContent
+import com.composebootcamp.triviva.screens.GameWonScreenContent
+import com.composebootcamp.triviva.screens.HomeScreenContent
+import com.composebootcamp.triviva.screens.RuleScreenContent
+import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
 
 // refer original document
 //https://developer.android.com/jetpack/compose/navigation
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
+fun AppNavigation(
+    navController: NavHostController,
+    paddingValues: PaddingValues,
+    onUpdateScore: (score: Int) -> Unit,
+    onNavigate: (screenId: String) -> Unit
+) {
     // we need to specify starting point here
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         // define route for Home screen
         composable(route = Screen.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreenContent(navController, onNavigate)
         }
         // define route for Game screen
         composable(route = Screen.GameScreen.route,
@@ -52,7 +58,14 @@ fun AppNavigation() {
                 )
             }
         ) {
-            GameScreen(navController)
+            GameScreenContent(
+                navController = navController,
+                viewModel = GameScreenViewModel(),
+                onNavigate = onNavigate
+            ) { score ->
+                Log.d("AppNavigation", "Score: $score")
+                onUpdateScore(score)
+            }
         }
         // define route for GameWon screen with argument
         composable(
@@ -84,10 +97,8 @@ fun AppNavigation() {
                     )
                 )
             }
-        ) { entry ->
-            val correctNum = entry.arguments?.getInt(GameWonNumOfCorrect, 0) ?: 0
-            val totalNum = entry.arguments?.getInt(GameWonTotalQuiz, 0) ?: 0
-            GameWonScreen(navController, numOfCorrect = correctNum, totalQuiz = totalNum)
+        ) {
+            GameWonScreenContent(navController, onNavigate)
         }
         // define route for GameOver screen
         composable(route = Screen.GameOverScreen.route,
@@ -109,7 +120,7 @@ fun AppNavigation() {
                     )
                 )
             }) {
-            GameOverScreen(navController)
+            GameOverScreenContent(navController, onNavigate)
         }
         // define route for About screen
         composable(route = Screen.AboutScreen.route,
@@ -131,7 +142,7 @@ fun AppNavigation() {
                     )
                 )
             }) {
-            AboutScreen(navController)
+            AboutScreenContent(paddingValues)
         }
         // define route for Rule screen
         composable(route = Screen.RuleScreen.route,
@@ -153,7 +164,7 @@ fun AppNavigation() {
                     )
                 )
             }) {
-            RuleScreen(navController)
+            RuleScreenContent(paddingValues)
         }
     }
 }

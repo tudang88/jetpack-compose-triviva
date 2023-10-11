@@ -37,13 +37,14 @@ import com.composebootcamp.triviva.viewmodel.FinalDestination
 import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
 
 @Composable
-fun GameScreen(
+fun GameScreenContent(
     navController: NavController?,
-    viewModel: GameScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
-
+    viewModel: GameScreenViewModel,
+    onNavigate: (route: String) -> Unit,
+    onUpdateScore: (score: Int) -> Unit
 ) {
     val question = viewModel.getQuiz()
-    val answers = question.answers.shuffled()
+    val answers = question.answers
     var selectedOption by remember {
         mutableStateOf(answers[0])
     }
@@ -61,90 +62,86 @@ fun GameScreen(
             navController?.navigate(
                 Screen.GameWonScreen.buildRouteWithIntArgs(numOfCorrect, totalQuiz)
             )
+            onNavigate(Screen.GameWonScreen.route)
         }
 
         else -> {}
     }
 
     // UI structure
-    ScreenTemplate(
-        onLeadingClick = {
-            navController?.popBackStack()
-        },
-        title = stringResource(id = R.string.android_trivia) + "(${viewModel.getNumOfCorrect()}/${viewModel.getTotalQuiz()})"
+    Column(
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Image(
-                modifier = Modifier.padding(8.dp),
-                painter = painterResource(id = R.drawable.android_category_simple),
-                contentDescription = ""
-            )
-            Text(
-                text = question.text,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold
-            )
-            // Question area
-            Column() {
-                answers.forEach { text ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .selectable(
-                                selected = (text == selectedOption),
-                                onClick = {
-                                    selectedOption =
-                                        text // use setter of MutableState selectedOption to update value
-                                    // this operation similar to setState in StatefulWidget of flutter
-                                }
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
+        Image(
+            modifier = Modifier.padding(20.dp),
+            painter = painterResource(id = R.drawable.android_category_simple),
+            contentDescription = ""
+        )
+        Text(
+            text = question.text,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.Bold
+        )
+        // Question area
+        Column() {
+            answers.forEach { text ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectable(
                             selected = (text == selectedOption),
                             onClick = {
                                 selectedOption =
                                     text // use setter of MutableState selectedOption to update value
                                 // this operation similar to setState in StatefulWidget of flutter
-                            })
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.bodyMedium.merge(),
-                            modifier = Modifier.padding(start = 16.dp)
+                            }
                         )
-                    }
-
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = (text == selectedOption),
+                        onClick = {
+                            selectedOption =
+                                text // use setter of MutableState selectedOption to update value
+                            // this operation similar to setState in StatefulWidget of flutter
+                        })
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyMedium.merge(),
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
                 }
-            }
-            // Submit button
-            Button(shape = RectangleShape,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = ButtonPlayBgColor
-                ),
-                onClick = {
-                    // submit answer
-                    viewModel.submitAnswer(selectedOption, question)
 
-                }) {
-                Text(
-                    text = stringResource(id = R.string.submit_button),
-                    style = TextStyle(color = ButtonPlayCaptionColor, fontWeight = FontWeight.Bold)
-                )
             }
-
         }
+        // Submit button
+        Button(shape = RectangleShape,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = ButtonPlayBgColor
+            ),
+            onClick = {
+                // submit answer
+                viewModel.submitAnswer(selectedOption, question)
+                // update score
+                onUpdateScore(viewModel.getNumOfCorrect())
+
+            }) {
+            Text(
+                text = stringResource(id = R.string.submit_button),
+                style = TextStyle(color = ButtonPlayCaptionColor, fontWeight = FontWeight.Bold)
+            )
+        }
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GameScreenPreview() {
-    GameScreen(navController = null)
+fun GameScreenContentPreview() {
+    GameOverScreenContent(){}
 }

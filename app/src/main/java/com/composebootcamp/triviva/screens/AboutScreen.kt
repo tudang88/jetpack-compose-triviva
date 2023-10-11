@@ -2,6 +2,7 @@ package com.composebootcamp.triviva.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -21,16 +22,9 @@ import com.composebootcamp.triviva.R
 import com.composebootcamp.triviva.commonui.ScreenTemplate
 
 @Composable
-fun AboutScreen(navController: NavController? = null) {
-    ScreenTemplate(
-        onLeadingClick = {
-            navController?.popBackStack()
-        },
-        title = stringResource(id = R.string.about)
-    ) {
+fun AboutScreenContent(paddingValues: PaddingValues) {
         Column(modifier = Modifier
-            .padding(it)
-            .padding(top = 4.dp)) {
+            .padding(paddingValues)) {
             Image(
                 modifier = Modifier.padding(16.dp),
                 painter = painterResource(id = R.drawable.about_android_trivia),
@@ -47,12 +41,10 @@ fun AboutScreen(navController: NavController? = null) {
                 )
             )
         }
-
-    }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun AboutScreenPreview() {
-    AboutScreen()
+fun AboutScreenContentPreview() {
+    AboutScreenContent(paddingValues = PaddingValues(24.dp))
 }

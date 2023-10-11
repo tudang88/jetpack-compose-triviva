@@ -20,19 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.composebootcamp.triviva.R
-import com.composebootcamp.triviva.commonui.ScreenTemplate
 import com.composebootcamp.triviva.navigation.Screen
 import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
 
 @Composable
-fun GameOverScreen(navController: NavController? = null) {
-    ScreenTemplate(onLeadingClick = {
-        navController?.popBackStack()
-    }, title = stringResource(id = R.string.android_trivia)) {
+fun GameOverScreenContent(navController: NavController? = null, onNavigate: (route: String) -> Unit) {
         Column(
             modifier = Modifier
-                .padding(it)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
@@ -49,6 +44,7 @@ fun GameOverScreen(navController: NavController? = null) {
                 ),
                 onClick = {
                     // back to Home for playing again
+                    onNavigate(Screen.HomeScreen.route)
                     navController?.popBackStack(Screen.HomeScreen.route, inclusive = false)
                 }
             ) {
@@ -58,11 +54,10 @@ fun GameOverScreen(navController: NavController? = null) {
                 )
             }
         }
-    }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun GameOverScreenPreview() {
-    GameOverScreen()
+fun GameOverScreenContentPreview() {
+    GameOverScreenContent() {}
 }

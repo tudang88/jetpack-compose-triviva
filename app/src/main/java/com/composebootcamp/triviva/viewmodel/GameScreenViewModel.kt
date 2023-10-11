@@ -15,32 +15,32 @@ data class Question(
 private val questions = listOf(
     Question(
         text = "What is Android Jetpack?",
-        answers = listOf("all of these", "tools", "documentation", "libraries"),
+        answers = listOf("all of these", "tools", "documentation", "libraries").shuffled(),
         key = "all of these"
     ),
     Question(
         text = "Base class for Layout?",
-        answers = listOf("ViewGroup", "ViewSet", "ViewCollection", "ViewRoot"),
+        answers = listOf("ViewGroup", "ViewSet", "ViewCollection", "ViewRoot").shuffled(),
         key = "ViewGroup"
     ),
     Question(
         text = "Layout for complex Screens?",
-        answers = listOf("ConstraintLayout", "GridLayout", "LinearLayout", "FrameLayout"),
+        answers = listOf("ConstraintLayout", "GridLayout", "LinearLayout", "FrameLayout").shuffled(),
         key = "ConstraintLayout"
     ),
     Question(
         text = "Pushing structured data into a Layout?",
-        answers = listOf("Data Binding", "Data Pushing", "Set Text", "OnClick"),
+        answers = listOf("Data Binding", "Data Pushing", "Set Text", "OnClick").shuffled(),
         key = "Data Binding"
     ),
     Question(
         text = "Inflate layout in fragments?",
-        answers = listOf("onCreateView", "onViewCreated", "onCreateLayout", "onInflateLayout"),
+        answers = listOf("onCreateView", "onViewCreated", "onCreateLayout", "onInflateLayout").shuffled(),
         key = "onCreateView"
     ),
     Question(
         text = "Build system for Android?",
-        answers = listOf("Gradle", "Graddle", "Grodle", "Groyle"),
+        answers = listOf("Gradle", "Graddle", "Grodle", "Groyle").shuffled(),
         key = "Gradle"
     ),
     Question(
@@ -50,22 +50,22 @@ private val questions = listOf(
             "AndroidVectorDrawable",
             "DrawableVector",
             "AndroidVector"
-        ),
+        ).shuffled(),
         key = "VectorDrawable"
     ),
     Question(
         text = "Android Navigation Component?",
-        answers = listOf("NavController", "NavCentral", "NavMaster", "NavSwitcher"),
+        answers = listOf("NavController", "NavCentral", "NavMaster", "NavSwitcher").shuffled(),
         key = "NavController"
     ),
     Question(
         text = "Registers app with launcher?",
-        answers = listOf("intent-filter", "app-registry", "launcher-registry", "app-launcher"),
+        answers = listOf("intent-filter", "app-registry", "launcher-registry", "app-launcher").shuffled(),
         key = "intent-filter"
     ),
     Question(
         text = "Mark a layout for Data Binding?",
-        answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>"),
+        answers = listOf("<layout>", "<binding>", "<data-binding>", "<dbinding>").shuffled(),
         key = "<layout>"
     )
 )
