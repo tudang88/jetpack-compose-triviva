@@ -40,6 +40,7 @@ import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
 fun GameScreenContent(
     navController: NavController?,
     viewModel: GameScreenViewModel,
+    onNavigate: (route: String) -> Unit,
     onUpdateScore: (score: Int) -> Unit
 ) {
     val question = viewModel.getQuiz()
@@ -61,6 +62,7 @@ fun GameScreenContent(
             navController?.navigate(
                 Screen.GameWonScreen.buildRouteWithIntArgs(numOfCorrect, totalQuiz)
             )
+            onNavigate(Screen.GameWonScreen.route)
         }
 
         else -> {}

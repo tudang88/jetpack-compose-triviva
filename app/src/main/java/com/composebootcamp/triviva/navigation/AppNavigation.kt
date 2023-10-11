@@ -60,7 +60,8 @@ fun AppNavigation(
         ) {
             GameScreenContent(
                 navController = navController,
-                viewModel = GameScreenViewModel()
+                viewModel = GameScreenViewModel(),
+                onNavigate = onNavigate
             ) { score ->
                 Log.d("AppNavigation", "Score: $score")
                 onUpdateScore(score)
