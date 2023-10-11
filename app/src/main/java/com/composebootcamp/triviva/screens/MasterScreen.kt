@@ -1,8 +1,10 @@
 package com.composebootcamp.triviva.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
@@ -16,8 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,10 +35,16 @@ import com.composebootcamp.triviva.menu.menuList
 import com.composebootcamp.triviva.navigation.AppNavigation
 import kotlinx.coroutines.launch
 
+data class AppBarState(val navIcon: ImageVector, val title: String)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MasterScreen() {
+    val context = LocalContext.current
+    val appBarState by remember {
+        mutableStateOf(AppBarState(Icons.Default.Menu, context.getString(R.string.android_trivia)))
+    }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     // the drawerState operation request a coroutine scope
     val scope = rememberCoroutineScope()
@@ -57,25 +70,33 @@ fun MasterScreen() {
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
-                    Text(stringResource(id = R.string.android_trivia))
+                    Text(appBarState.title)
                 },
                 navigationIcon = {
                     IconButton(onClick = {// on DrawerMenu click
-                        scope.launch {
-                            drawerState.apply {
-                                if (isClosed) open() else close()
+                        when (appBarState.navIcon) {
+                            Icons.Default.Menu -> scope.launch {
+                                drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
                             }
+
+                            Icons.Default.ArrowBack -> navController.popBackStack()
+                            else -> Log.d("MasterScreen", "Unknown Navigation Icon State click")
                         }
+
                     }) {
                         Icon(
-                            imageVector = Icons.Default.Menu,
+                            imageVector = appBarState.navIcon,
                             contentDescription = "Navigation Drawer Button"
                         )
                     }
                 },
                 actions = { })
         }) {
-            AppNavigation(navController, it)
+            AppNavigation(navController, it) {
+                Log.d("MasterScreen", "Navigate to : $it")
+            }
         }
     }
 }

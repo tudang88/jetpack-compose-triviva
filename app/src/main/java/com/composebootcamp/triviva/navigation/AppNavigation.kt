@@ -25,7 +25,11 @@ import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
 //https://developer.android.com/jetpack/compose/navigation
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppNavigation(navController : NavHostController, paddingValues: PaddingValues) {
+fun AppNavigation(
+    navController: NavHostController,
+    paddingValues: PaddingValues,
+    onNavigate: (screenId: String) -> Unit
+) {
     // we need to specify starting point here
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         // define route for Home screen
