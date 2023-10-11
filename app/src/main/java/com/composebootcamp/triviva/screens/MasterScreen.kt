@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +34,7 @@ import com.composebootcamp.triviva.R
 import com.composebootcamp.triviva.menu.DrawerBody
 import com.composebootcamp.triviva.menu.menuList
 import com.composebootcamp.triviva.navigation.AppNavigation
+import com.composebootcamp.triviva.navigation.Screen
 import kotlinx.coroutines.launch
 
 data class AppBarState(val navIcon: ImageVector, val title: String)
@@ -42,7 +44,7 @@ data class AppBarState(val navIcon: ImageVector, val title: String)
 @Composable
 fun MasterScreen() {
     val context = LocalContext.current
-    val appBarState by remember {
+    var appBarState by remember {
         mutableStateOf(AppBarState(Icons.Default.Menu, context.getString(R.string.android_trivia)))
     }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -61,6 +63,7 @@ fun MasterScreen() {
                 }
                 // navigate to destination
                 navController.navigate(it.route)
+                appBarState = appBarState.copy(navIcon = Icons.Default.ArrowBack)
             }
         }) {
         Scaffold(topBar = {
@@ -81,7 +84,14 @@ fun MasterScreen() {
                                 }
                             }
 
-                            Icons.Default.ArrowBack -> navController.popBackStack()
+                            Icons.Default.ArrowBack -> {
+                                Log.d("MasterScreen", "onBack button")
+                                if (navController.previousBackStackEntry?.destination?.route == Screen.HomeScreen.route) {
+                                    appBarState = appBarState.copy(navIcon = Icons.Default.Menu, title = context.getString(R.string.android_trivia))
+                                }
+                                navController.popBackStack()
+                            }
+
                             else -> Log.d("MasterScreen", "Unknown Navigation Icon State click")
                         }
 
@@ -94,8 +104,19 @@ fun MasterScreen() {
                 },
                 actions = { })
         }) {
-            AppNavigation(navController, it) {
-                Log.d("MasterScreen", "Navigate to : $it")
+            AppNavigation(navController, it, onUpdateScore = {score ->
+                appBarState = appBarState.copy(title = context.getString(R.string.title_android_trivia_question, score, 10))
+            }) { route ->
+                Log.d("MasterScreen", "Navigate to : $route")
+                when (route) {
+                    Screen.GameScreen.route ->
+                        appBarState = appBarState.copy(navIcon = Icons.Default.ArrowBack, title = context.getString(R.string.title_android_trivia_question, 0, 10))
+                    Screen.HomeScreen.route ->
+                        appBarState = appBarState.copy(navIcon = Icons.Default.Menu, title = context.getString(R.string.android_trivia))
+                    else -> {
+                        Log.d("MasterScreen", "Navigate to unsupport : $route")
+                    }
+                }
             }
         }
     }

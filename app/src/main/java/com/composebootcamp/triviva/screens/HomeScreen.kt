@@ -26,7 +26,9 @@ import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
 
 @Composable
-fun HomeScreenContent(navController: NavController? = null) {
+fun HomeScreenContent(
+    navController: NavController? = null, onNavigate: (route: String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -44,6 +46,7 @@ fun HomeScreenContent(navController: NavController? = null) {
             ),
             onClick = {
                 navController?.navigate(Screen.GameScreen.route)
+                onNavigate(Screen.GameScreen.route)
             }) {
             Text(
                 text = stringResource(id = R.string.play_button_text),
@@ -56,5 +59,5 @@ fun HomeScreenContent(navController: NavController? = null) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenContentPreview() {
-    HomeScreenContent()
+    HomeScreenContent(onNavigate = {})
 }

@@ -28,13 +28,14 @@ import com.composebootcamp.triviva.viewmodel.GameScreenViewModel
 fun AppNavigation(
     navController: NavHostController,
     paddingValues: PaddingValues,
+    onUpdateScore: (score: Int) -> Unit,
     onNavigate: (screenId: String) -> Unit
 ) {
     // we need to specify starting point here
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         // define route for Home screen
         composable(route = Screen.HomeScreen.route) {
-            HomeScreenContent(navController)
+            HomeScreenContent(navController, onNavigate)
         }
         // define route for Game screen
         composable(route = Screen.GameScreen.route,
@@ -60,7 +61,10 @@ fun AppNavigation(
             GameScreenContent(
                 navController = navController,
                 viewModel = GameScreenViewModel()
-            ) { score -> Log.d("AppNavigation", "Score: $score") }
+            ) { score ->
+                Log.d("AppNavigation", "Score: $score")
+                onUpdateScore(score)
+            }
         }
         // define route for GameWon screen with argument
         composable(
@@ -93,7 +97,7 @@ fun AppNavigation(
                 )
             }
         ) {
-            GameWonScreenContent(navController)
+            GameWonScreenContent(navController, onNavigate)
         }
         // define route for GameOver screen
         composable(route = Screen.GameOverScreen.route,
@@ -115,7 +119,7 @@ fun AppNavigation(
                     )
                 )
             }) {
-            GameOverScreenContent(navController)
+            GameOverScreenContent(navController, onNavigate)
         }
         // define route for About screen
         composable(route = Screen.AboutScreen.route,

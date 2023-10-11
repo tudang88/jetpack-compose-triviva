@@ -25,7 +25,7 @@ import com.composebootcamp.triviva.ui.theme.ButtonPlayBgColor
 import com.composebootcamp.triviva.ui.theme.ButtonPlayCaptionColor
 
 @Composable
-fun GameOverScreenContent(navController: NavController? = null) {
+fun GameOverScreenContent(navController: NavController? = null, onNavigate: (route: String) -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -44,6 +44,7 @@ fun GameOverScreenContent(navController: NavController? = null) {
                 ),
                 onClick = {
                     // back to Home for playing again
+                    onNavigate(Screen.HomeScreen.route)
                     navController?.popBackStack(Screen.HomeScreen.route, inclusive = false)
                 }
             ) {
@@ -58,5 +59,5 @@ fun GameOverScreenContent(navController: NavController? = null) {
 @Preview(showBackground = true)
 @Composable
 fun GameOverScreenContentPreview() {
-    GameOverScreenContent()
+    GameOverScreenContent() {}
 }

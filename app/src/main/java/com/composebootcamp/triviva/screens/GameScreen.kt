@@ -141,5 +141,5 @@ fun GameScreenContent(
 @Preview(showBackground = true)
 @Composable
 fun GameScreenContentPreview() {
-    GameOverScreenContent()
+    GameOverScreenContent(){}
 }
