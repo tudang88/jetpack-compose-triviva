@@ -101,6 +101,18 @@ fun CreateActionMenu(
         }
     }
 }
+@Composable
+fun NavigationIcon(
+    navIcon: ImageVector,
+    onNavigationIconClick: () -> Unit
+) {
+    IconButton(onClick = onNavigationIconClick) {
+        Icon(
+            imageVector = navIcon,
+            contentDescription = "Navigation Drawer Button"
+        )
+    }
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -139,7 +151,7 @@ fun MasterScreen() {
                     Text(appBarState.title)
                 },
                 navigationIcon = {
-                    IconButton(onClick = {// on DrawerMenu click
+                    NavigationIcon(navIcon = appBarState.navIcon, onNavigationIconClick = {// on DrawerMenu click
                         when (appBarState.navIcon) {
                             Icons.Default.Menu -> scope.launch {
                                 drawerState.apply {
@@ -166,12 +178,7 @@ fun MasterScreen() {
                             else -> Log.d("MasterScreen", "Unknown Navigation Icon State click")
                         }
 
-                    }) {
-                        Icon(
-                            imageVector = appBarState.navIcon,
-                            contentDescription = "Navigation Drawer Button"
-                        )
-                    }
+                    })
                 },
                 actions = {
                     CreateActionMenu(
